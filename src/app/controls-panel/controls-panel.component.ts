@@ -7,7 +7,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class ControlsPanelComponent {
   @Output() commandEvent = new EventEmitter<string>();
-  private command: string;
+  public command: string;
 
   constructor() { }
   

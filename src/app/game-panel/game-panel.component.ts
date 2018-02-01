@@ -12,7 +12,7 @@ export class GamePanelComponent{
   private boardCharacter = "*";
   private boardWidth = 22;  //allocate 2 for border
   private boardHeight = 21;  //allocate 1 for bottom border
-  private mainBoard;
+  public mainBoard;
   private currentTetris;
   private tetrisList = [];
   public errorMsg = "";
