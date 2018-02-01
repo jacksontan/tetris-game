@@ -6,10 +6,10 @@ export default abstract class TetrisPiece {
   private width;
   private height;
   private body;
-  private oldPositionX;
-  private oldPositionY;
   private positionX = 9;
   private positionY = 0;
+  private oldPositionX = this.positionX;
+  private oldPositionY = this.positionY;
   public orientation = 0;
   public bodies = [];
 
@@ -34,6 +34,11 @@ export default abstract class TetrisPiece {
     this.positionX++;
   }
 
+  public moveUp() {
+    this.oldPositionY = this.positionY;
+    this.positionY--;
+  }
+
   public moveDown() {
     this.oldPositionY = this.positionY;
     this.positionY++;
@@ -54,7 +59,7 @@ export default abstract class TetrisPiece {
     }
     this.toggleOrientation();
   }
-  
+
   public revertPosition() {
     this.positionX = this.oldPositionX;
     this.positionY = this.oldPositionY;

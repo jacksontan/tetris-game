@@ -6,25 +6,25 @@ export default class TetrisPieceRightGun extends TetrisPiece {
 		super(id);
 		this.setType(TetrisEnumType.rightgun);
 		this.bodies = [
-					   [[" ", "*"],
-					   [" ", "*"],
+					   [["", "*"],
+					   ["", "*"],
 					   ["*", "*"]], 
 
-					   [["*", " ", " "],
+					   [["*", "", ""],
 					   ["*", "*", "*"]],
 
 					   [["*", "*"],
-					   ["*", " "],
-					   ["*", " "]],
+					   ["*", ""],
+					   ["*", ""]],
 
 					   [["*", "*", "*"],
-					   [" ", " ", "*"]]
+					   ["", "", "*"]]
 					 ];
 	}
 
 	public generateBody() {
-		this.setBody([[" ", "*"],
-					  [" ", "*"],
+		this.setBody([["", "*"],
+					  ["", "*"],
 					  ["*", "*"]]);
 		this.setWidthAndHeight();
 	}

@@ -15,14 +15,4 @@ export default class TetrisPieceStick extends TetrisPiece {
 		this.setBody([["*", "*", "*", "*", "*"]]);
 		this.setWidthAndHeight();
 	}
-
-	// public rotateClockwise() {
- //    	this.orientation = this.orientation === 0 ? 1 : 0;
-	// 	this.toggleOrientation();
-	// }
-
-	// public rotateCounterClockwise() {
- //    	this.orientation = this.orientation === 0 ? 1 : 0;
-	// 	this.toggleOrientation();
-	// }
 }

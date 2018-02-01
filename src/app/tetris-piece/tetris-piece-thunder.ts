@@ -6,19 +6,19 @@ export default class TetrisPieceThunder extends TetrisPiece {
 		super(id);
 		this.setType(TetrisEnumType.thunder);
 		this.bodies = [
-					   [[" ", "*"],
+					   [["", "*"],
 					   ["*", "*"],
-					   ["*", " "]], 
+					   ["*", ""]], 
 
-					   [["*", "*", " "],
-					   [" ", "*", "*"]],
+					   [["*", "*", ""],
+					   ["", "*", "*"]],
 					 ];
 	}
 
 	public generateBody() {
-		this.setBody([[" ", "*"],
+		this.setBody([["", "*"],
 					  ["*", "*"],
-					  ["*", " "]]);
+					  ["*", ""]]);
 		this.setWidthAndHeight();
 	}
 }

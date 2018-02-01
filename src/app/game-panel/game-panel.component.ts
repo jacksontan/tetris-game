@@ -78,41 +78,59 @@ export class GamePanelComponent{
     this.tetrisList.push(this.currentTetris);
   }
 
-  private updateTetrisBoard() {
+  private updateTetrisBoard(isSilent?: boolean) {
     let isValidMove;
     const mainBoardClone = _.cloneDeep(this.mainBoard);
     this.clearBoard(mainBoardClone);
     _.each(this.tetrisList, (tetrisPiece) => {
       _.every(tetrisPiece.getBody(), (rowElem, index) => {
         let rowBoard = _.get(mainBoardClone, tetrisPiece.getPositionY() + index);
-        isValidMove = this.checkValidMove(rowBoard, tetrisPiece, rowElem.length);
+        isValidMove = this.checkValidMove(rowBoard, tetrisPiece, rowElem.length, index);
         if(rowBoard && isValidMove) {
-          rowBoard.splice(tetrisPiece.getPositionX(), rowElem.length, ...rowElem);
+          let rowBoardSubset = rowBoard.slice(tetrisPiece.getPositionX(), tetrisPiece.getPositionX() + rowElem.length);
+          _.mergeWith(rowBoardSubset, rowElem, (val1, val2) => val1 || val2);
+          rowBoard.splice(tetrisPiece.getPositionX(), rowElem.length, ...rowBoardSubset);
         }
         return isValidMove;
       });
     })
     if(isValidMove) {
-      this.mainBoard = mainBoardClone;
+      if(!isSilent) {
+        this.mainBoard = mainBoardClone;
+      }
       return true;
     }
     else {
-      this.errorMsg = "Invalid move.";
-      this.currentTetris.revertPosition();
+      if(!isSilent) {
+        this.errorMsg = "Invalid move.";
+        this.currentTetris.revertPosition();
+      }
       return false;
     }
   }
 
-  private checkValidMove(rowBoard, tetrisPiece, elemWidth) {
+  private checkValidMove(rowBoard, tetrisPiece, elemWidth, elemIndex) {
     const startIndex = tetrisPiece.getPositionX();
     const endIndex = tetrisPiece.getPositionX() + elemWidth;
     const subset = rowBoard.slice(startIndex, endIndex);
-    return !subset.includes("*");
+    return !_.some(tetrisPiece.getBody()[elemIndex], (val, index) => {
+      if(val === "*") {
+        return subset[index] === "*";
+      }
+    })
   }
 
   private checkPieceLanded() {
     const lastElemIndex = this.currentTetris.getLastElementIndex();
-    return lastElemIndex === this.boardHeight - 1;
+    this.currentTetris.moveDown();
+    if(this.updateTetrisBoard(true)) {
+      this.currentTetris.moveUp();
+      return false;
+    }
+    else {
+      this.currentTetris.moveUp();
+      return true;
+    }
   }
 
   private clearBoard(mainBoard) {
