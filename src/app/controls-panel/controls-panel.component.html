@@ -1,0 +1,15 @@
+<div id="controls-panel-container" class="controls-panel-container">
+  <pre>
+Legend: 
+	a: Move left
+	d: Move right
+	w: Rotate clockwise
+	s: Rotate counter clockwise
+  </pre>
+  <div>
+  	<input type="text" name="inputCommand" [(ngModel)]="command" (keyup)="doCommand()" maxlength="1" placeholder="Enter command">
+  </div>
+  <div>
+  	<div class="has-error">{{errorMsg}}</div>
+  </div>
+</div>

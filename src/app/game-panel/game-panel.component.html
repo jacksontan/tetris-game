@@ -1,0 +1,8 @@
+<div id="game-panel-container" class="game-panel-container">
+	<table>
+	<tr *ngFor="let row of mainBoard">
+		<td *ngFor="let col of row" class="tetris-container">{{col}}</td>
+	</tr>
+	</table>
+</div>
+<div class="has-error" *ngIf="errorMsg">{{errorMsg}}</div>

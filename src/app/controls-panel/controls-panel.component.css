@@ -1,0 +1,9 @@
+.controls-panel-container {
+	border: 1px solid black;
+	background-color: lightblue;
+	float: left;
+	width: 250px;
+	height: 200px;
+	padding: 20px;
+	margin-right: 20px;
+}

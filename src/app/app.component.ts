@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { ControlsPanelComponent } from './controls-panel/controls-panel.component';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  @ViewChild(ControlsPanelComponent) controlsPanel;
+  public title = 'My Tetris Game';
+  public command;
+
+  receiveCommand(commandPassed) {
+  	this.command = commandPassed;
+  	setTimeout(() => {
+  		this.command = "";
+  	}, 100);
+  }
 }
