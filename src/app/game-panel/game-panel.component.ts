@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 })
 export class GamePanelComponent{
   private _command: string;
-  private boardCharacter = "*";
+  private borderChar = "O";
   private boardWidth = 17;  //allocate 2 for border
   private boardHeight = 21;  //allocate 1 for bottom border
   public mainBoard;
@@ -53,6 +53,7 @@ export class GamePanelComponent{
         }
         case "s": {
           this.currentTetris.moveDown();
+          this.checkPieceLandedAndCreate();
           break;
         }
         default: {
@@ -64,7 +65,7 @@ export class GamePanelComponent{
         this.errorMsg = "Unknown command.";
       }
       else {
-        this.checkPieceLandedAndCreate();
+        this.updateTetrisBoard();
       }
     }
   };
@@ -85,8 +86,9 @@ export class GamePanelComponent{
   private startGravity() {
     let interval = 1000 - this.gravityMultiplier * 100;
     setInterval(() => {
-      this.currentTetris.moveDown();
       this.checkPieceLandedAndCreate();
+      this.currentTetris.moveDown();
+      this.updateTetrisBoard();
     }, interval)
   }
 
@@ -134,7 +136,7 @@ export class GamePanelComponent{
     const subset = rowBoard.slice(startIndex, endIndex);
     return !_.some(tetrisPiece.getBody()[elemIndex], (val, index) => {
       if(val === "*") {
-        return subset[index] === "*";
+        return subset[index] === this.borderChar || subset[index] === "*";
       }
     })
   }
@@ -148,17 +150,35 @@ export class GamePanelComponent{
     }
     else {
       this.currentTetris.moveUp();
+      this.checkAndRemoveCompletedLines();
       return true;
     }
+  }
+
+  private checkAndRemoveCompletedLines() {
+    let rowsToDelete = [];
+    _.each(this.mainBoard, (row, rowNo) => {
+      let isCompleted = _.every(_.without(row, this.borderChar), (item) => item === "*");
+      if(isCompleted && rowNo !== this.boardHeight - 1) {  //exclude bottom border
+        rowsToDelete.push(rowNo);
+      }
+    });
+    _.each(rowsToDelete, (rowNo) => {
+      console.log(this.mainBoard);
+      this.mainBoard.splice(rowNo, 1);
+      console.log(this.mainBoard);
+      this.mainBoard.splice(0, 0, new Array(this.boardWidth));
+      console.log(this.mainBoard);
+    });
   }
 
   private clearBoard(mainBoard) {
     for (let i = 0; i < mainBoard.length; i++) {
       mainBoard[i] = new Array(this.boardWidth).fill("");
-      mainBoard[i][0] = this.boardCharacter;
-      mainBoard[i][this.boardWidth - 1] = this.boardCharacter;
+      mainBoard[i][0] = this.borderChar;
+      mainBoard[i][this.boardWidth - 1] = this.borderChar;
     }
     //fill last border
-    mainBoard[mainBoard.length - 1].fill(this.boardCharacter);
+    mainBoard[mainBoard.length - 1].fill(this.borderChar);
   }
 }

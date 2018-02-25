@@ -7,27 +7,35 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TetrisPieceFactory {
+	public pieceChar = "X";
 	public createTetrisPiece() {
 		const randomTetrisType = Math.floor(Math.random() * 5);
+		let generatedPiece;
 		switch(randomTetrisType) {
 			case 0: {
-				return new TetrisPieceStick(randomTetrisType);
+				generatedPiece = new TetrisPieceStick(randomTetrisType);
+				break;
 			}
 			case 1: {
-				return new TetrisPieceLeftGun(randomTetrisType);
+				generatedPiece = new TetrisPieceLeftGun(randomTetrisType);
+				break;
 			}
 			case 2: {
-				return new TetrisPieceRightGun(randomTetrisType);
+				generatedPiece = new TetrisPieceRightGun(randomTetrisType);
+				break;
 			}
 			case 3: {
-				return new TetrisPieceThunder(randomTetrisType);
+				generatedPiece = new TetrisPieceThunder(randomTetrisType);
+				break;
 			}
 			case 4: {
-				return new TetrisPieceBlock(randomTetrisType);
+				generatedPiece = new TetrisPieceBlock(randomTetrisType);
+				break;
 			}
 			default: {
 				break;
 			}
 		}
+		return generatedPiece;
 	}
 }
