@@ -10,12 +10,13 @@ import * as _ from 'lodash';
 export class GamePanelComponent{
   private _command: string;
   private boardCharacter = "*";
-  private boardWidth = 22;  //allocate 2 for border
+  private boardWidth = 17;  //allocate 2 for border
   private boardHeight = 21;  //allocate 1 for bottom border
   public mainBoard;
   private currentTetris;
   private tetrisList = [];
   public errorMsg = "";
+  public gravityMultiplier = 1;
 
   constructor(private TetrisPieceFactory: TetrisPieceFactory) { 
     this.TetrisPieceFactory = TetrisPieceFactory;
@@ -29,24 +30,28 @@ export class GamePanelComponent{
     if(this.currentTetris && command !== "") {
       this.errorMsg = "";
       let isUnknownCommand = false;
-      switch(command) {
+      switch(command.toLowerCase()) {
         case "a": {
           this.currentTetris.moveLeft();
-          this.currentTetris.moveDown();
+          // this.currentTetris.moveDown();
           break;
         }
         case "d": {
           this.currentTetris.moveRight();
-          this.currentTetris.moveDown();
+          // this.currentTetris.moveDown();
           break;
         }
         case "w": {
           this.currentTetris.rotateCounterClockwise();
-          this.currentTetris.moveDown();
+          // this.currentTetris.moveDown();
+          break;
+        }
+        case "e": {
+          this.currentTetris.rotateClockwise();
+          // this.currentTetris.moveDown();
           break;
         }
         case "s": {
-          this.currentTetris.rotateClockwise();
           this.currentTetris.moveDown();
           break;
         }
@@ -59,10 +64,7 @@ export class GamePanelComponent{
         this.errorMsg = "Unknown command.";
       }
       else {
-        if(this.updateTetrisBoard() && this.checkPieceLanded()) {
-          this.createTetrisPiece();
-          this.updateTetrisBoard();
-        }
+        this.checkPieceLandedAndCreate();
       }
     }
   };
@@ -71,11 +73,28 @@ export class GamePanelComponent{
     this.mainBoard = new Array(this.boardHeight);
     this.createTetrisPiece();
     this.updateTetrisBoard();
+    this.startGravity();
   }
 
   private createTetrisPiece() {
     this.currentTetris = this.TetrisPieceFactory.createTetrisPiece();
     this.tetrisList.push(this.currentTetris);
+    this.currentTetris.setPositionX(this.boardWidth / 2 - 1); //get middle position
+  }
+
+  private startGravity() {
+    let interval = 1000 - this.gravityMultiplier * 100;
+    setInterval(() => {
+      this.currentTetris.moveDown();
+      this.checkPieceLandedAndCreate();
+    }, interval)
+  }
+
+  private checkPieceLandedAndCreate() {
+    if(this.updateTetrisBoard() && this.checkPieceLanded()) {
+      this.createTetrisPiece();
+      this.updateTetrisBoard();
+    }
   }
 
   private updateTetrisBoard(isSilent?: boolean) {

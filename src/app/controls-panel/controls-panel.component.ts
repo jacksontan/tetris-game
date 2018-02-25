@@ -11,8 +11,14 @@ export class ControlsPanelComponent {
 
   constructor() { }
   
-  public doCommand() {
-  	this.commandEvent.emit(this.command);
-  	this.command = "";
+  public doCommand(e) {
+  	this.commandEvent.emit(e.key);
+  	return true;
+  }
+
+  public returnFocus(e) {
+    if(e && e.currentTarget) {
+      e.currentTarget.focus();
+    }
   }
 }

@@ -1,12 +1,10 @@
 <div id="controls-panel-container" class="controls-panel-container">
-  <pre>
-Legend: 
+  <pre>Legend: 
 	a: Move left
 	d: Move right
 	w: Rotate clockwise
-	s: Rotate counter clockwise
+	e: Rotate counter clockwise
+	s: Move down
   </pre>
-  <div>
-  	<input type="text" name="inputCommand" [(ngModel)]="command" (keyup)="doCommand()" maxlength="1" placeholder="Enter command">
-  </div>
 </div>
+  	<input type="text" id="commandField" name="commandField" [(ngModel)]="command" (keydown)="doCommand($event)" (blur)="returnFocus($event)" maxlength="1" placeholder="Enter command" autofocus>

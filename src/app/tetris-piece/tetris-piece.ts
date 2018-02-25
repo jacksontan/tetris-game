@@ -6,7 +6,7 @@ export default abstract class TetrisPiece {
   private width;
   private height;
   private body;
-  private positionX = 9;
+  private positionX = 0;
   private positionY = 0;
   private oldPositionX = this.positionX;
   private oldPositionY = this.positionY;
