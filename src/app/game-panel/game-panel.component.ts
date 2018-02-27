@@ -10,13 +10,15 @@ import * as _ from 'lodash';
 export class GamePanelComponent{
   private _command: string;
   private borderChar = "O";
-  private boardWidth = 17;  //allocate 2 for border
+  private boardWidth = 15;  //allocate 2 for border
   private boardHeight = 21;  //allocate 1 for bottom border
-  public mainBoard;
+  private landedPiecesBoard;
   private currentTetris;
   private tetrisList = [];
   public errorMsg = "";
   public gravityMultiplier = 1;
+  public mainBoard;
+  public score = 0;
 
   constructor(private TetrisPieceFactory: TetrisPieceFactory) { 
     this.TetrisPieceFactory = TetrisPieceFactory;
@@ -52,8 +54,8 @@ export class GamePanelComponent{
           break;
         }
         case "s": {
-          this.currentTetris.moveDown();
           this.checkPieceLandedAndCreate();
+          this.currentTetris.moveDown();
           break;
         }
         default: {
@@ -62,7 +64,8 @@ export class GamePanelComponent{
         }
       }
       if(isUnknownCommand) {
-        this.errorMsg = "Unknown command.";
+        // this.errorMsg = "Unknown command.";
+        console.log("Unknown command")
       }
       else {
         this.updateTetrisBoard();
@@ -72,6 +75,8 @@ export class GamePanelComponent{
 
   public initBoard() {
     this.mainBoard = new Array(this.boardHeight);
+    this.clearBoard(this.mainBoard);
+    this.landedPiecesBoard = _.cloneDeep(this.mainBoard);
     this.createTetrisPiece();
     this.updateTetrisBoard();
     this.startGravity();
@@ -101,29 +106,26 @@ export class GamePanelComponent{
 
   private updateTetrisBoard(isSilent?: boolean) {
     let isValidMove;
-    const mainBoardClone = _.cloneDeep(this.mainBoard);
-    this.clearBoard(mainBoardClone);
-    _.each(this.tetrisList, (tetrisPiece) => {
-      _.every(tetrisPiece.getBody(), (rowElem, index) => {
-        let rowBoard = _.get(mainBoardClone, tetrisPiece.getPositionY() + index);
-        isValidMove = this.checkValidMove(rowBoard, tetrisPiece, rowElem.length, index);
+    const boardClone = _.cloneDeep(this.landedPiecesBoard);
+    _.each(this.currentTetris.getBody(), (rowElem, index) => {
+        let rowBoard = _.get(boardClone, this.currentTetris.getPositionY() + index);
+        isValidMove = this.checkValidMove(rowBoard, this.currentTetris, rowElem.length, index);
         if(rowBoard && isValidMove) {
-          let rowBoardSubset = rowBoard.slice(tetrisPiece.getPositionX(), tetrisPiece.getPositionX() + rowElem.length);
+          let rowBoardSubset = rowBoard.slice(this.currentTetris.getPositionX(), this.currentTetris.getPositionX() + rowElem.length);
           _.mergeWith(rowBoardSubset, rowElem, (val1, val2) => val1 || val2);
-          rowBoard.splice(tetrisPiece.getPositionX(), rowElem.length, ...rowBoardSubset);
+          rowBoard.splice(this.currentTetris.getPositionX(), rowElem.length, ...rowBoardSubset);
         }
-        return isValidMove;
-      });
     })
     if(isValidMove) {
       if(!isSilent) {
-        this.mainBoard = mainBoardClone;
+        this.mainBoard = boardClone;
       }
       return true;
     }
     else {
       if(!isSilent) {
-        this.errorMsg = "Invalid move.";
+        // this.errorMsg = "Invalid move.";
+        console.log("Invalid move.")
         this.currentTetris.revertPosition();
       }
       return false;
@@ -151,8 +153,13 @@ export class GamePanelComponent{
     else {
       this.currentTetris.moveUp();
       this.checkAndRemoveCompletedLines();
+      this.storeLandedPieces();
       return true;
     }
+  }
+
+  private storeLandedPieces() {
+    this.landedPiecesBoard = _.cloneDeep(this.mainBoard);
   }
 
   private checkAndRemoveCompletedLines() {
@@ -164,12 +171,17 @@ export class GamePanelComponent{
       }
     });
     _.each(rowsToDelete, (rowNo) => {
-      console.log(this.mainBoard);
       this.mainBoard.splice(rowNo, 1);
-      console.log(this.mainBoard);
-      this.mainBoard.splice(0, 0, new Array(this.boardWidth));
-      console.log(this.mainBoard);
+      this.addNewEmptyLine();
+      this.score++;
     });
+  }
+
+  private addNewEmptyLine() {
+      let newEmptyRow = new Array(this.boardWidth).fill("");
+      newEmptyRow[0] = this.borderChar;
+      newEmptyRow[this.boardWidth - 1] = this.borderChar;
+      this.mainBoard.splice(0, 0, newEmptyRow);
   }
 
   private clearBoard(mainBoard) {
