@@ -2,8 +2,8 @@ import TetrisPiece from './tetris-piece';
 import TetrisEnumType from './../Enums/tetris-enum-type';
 
 export default class TetrisPieceStick extends TetrisPiece {
-	private horizontalBody = [["*", "*", "*", "*", "*"]];
-	private verticalBody = [["*"], ["*"], ["*"], ["*"], ["*"]];
+	private horizontalBody = [["*", "*", "*", "*"]];
+	private verticalBody = [["*"], ["*"], ["*"], ["*"]];
 
 	constructor(id) {
 		super(id);
@@ -12,7 +12,7 @@ export default class TetrisPieceStick extends TetrisPiece {
 	}
 
 	public generateBody() {
-		this.setBody([["*", "*", "*", "*", "*"]]);
+		this.setBody([["*", "*", "*", "*"]]);
 		this.setWidthAndHeight();
 	}
 }

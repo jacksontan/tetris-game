@@ -3,9 +3,13 @@
     Welcome to {{title}}!
   </h1>
 </div>
-<controls-panel (commandEvent)="receiveCommand($event)">
-  Controls Panel Loading...
-</controls-panel>
-<game-panel [command]="command">
-  Game Panel Loading...
-</game-panel>
+<div class="container">
+	<div class="row">
+		<game-panel [command]="command" class="col-md-4">
+		  Game Panel Loading...
+		</game-panel>
+		<controls-panel (commandEvent)="receiveCommand($event)" class="col">
+		  Controls Panel Loading...
+		</controls-panel>
+	</div>
+</div>

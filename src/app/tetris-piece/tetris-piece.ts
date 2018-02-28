@@ -26,20 +26,24 @@ export default abstract class TetrisPiece {
 
   public moveLeft() {
     this.oldPositionX = this.positionX;
+    this.oldPositionY = undefined;
     this.positionX--;
   }
 
   public moveRight() {
     this.oldPositionX = this.positionX;
+    this.oldPositionY = undefined;
     this.positionX++;
   }
 
   public moveUp() {
+    this.oldPositionX = undefined;
     this.oldPositionY = this.positionY;
     this.positionY--;
   }
 
   public moveDown() {
+    this.oldPositionX = undefined;
     this.oldPositionY = this.positionY;
     this.positionY++;
   }
@@ -61,8 +65,8 @@ export default abstract class TetrisPiece {
   }
 
   public revertPosition() {
-    this.positionX = this.oldPositionX;
-    this.positionY = this.oldPositionY;
+    this.positionX = this.oldPositionX || this.positionX;
+    this.positionY = this.oldPositionY || this.positionY;
   }
 
   public getLastElementIndex() {
