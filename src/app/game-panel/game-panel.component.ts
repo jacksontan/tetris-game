@@ -14,6 +14,7 @@ export class GamePanelComponent{
   private boardHeight = 21;  //allocate 1 for bottom border
   private landedPiecesBoard;
   private currentTetris;
+  private gravityTimer = 0;
   private tetrisList = [];
   public errorMsg = "";
   public gravityMultiplier = 1;
@@ -32,7 +33,7 @@ export class GamePanelComponent{
     if(this.currentTetris && command !== "") {
       this.errorMsg = "";
       let isUnknownCommand = false;
-      switch(command.toLowerCase()) {
+      switch(_.toLower(command)) {
         case "a": {
           this.currentTetris.moveLeft();
           // this.currentTetris.moveDown();
@@ -56,6 +57,7 @@ export class GamePanelComponent{
         case "s": {
           this.checkPieceLandedAndCreate();
           this.currentTetris.moveDown();
+          this.resetGravityTimer();
           break;
         }
         default: {
@@ -86,15 +88,30 @@ export class GamePanelComponent{
     this.currentTetris = this.TetrisPieceFactory.createTetrisPiece();
     this.tetrisList.push(this.currentTetris);
     this.currentTetris.setPositionX(this.boardWidth / 2 - 1); //get middle position
+    if(this.isGameOver()) {
+      clearInterval(this.gravityTimer);
+      alert("GAME OVER!! WEAK!");
+    }
+  }
+
+  private isGameOver() {
+    return _.some(this.currentTetris.getBody(), (tetrisRow, index) => {
+      return !this.checkValidMove(this.mainBoard[index], this.currentTetris, tetrisRow.length, index);
+    });
   }
 
   private startGravity() {
-    let interval = 1000 - this.gravityMultiplier * 100;
-    setInterval(() => {
+    const interval = 1000 - this.gravityMultiplier * 100;
+    this.gravityTimer = setInterval(() => {
       this.checkPieceLandedAndCreate();
       this.currentTetris.moveDown();
       this.updateTetrisBoard();
     }, interval)
+  }
+
+  private resetGravityTimer() {
+    clearInterval(this.gravityTimer);
+    this.startGravity();
   }
 
   private checkPieceLandedAndCreate() {
