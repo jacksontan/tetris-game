@@ -1,3 +1,16 @@
+<div class="controls-button-container">
+	<div>
+		<button (click)="doCommand(65)" ng-bind-html>&#9668;</button>
+		<button class="margin-left-30" (click)="doCommand(68)" ng-bind-html>&#9658;</button>
+	</div>
+	<div>
+		<button class="margin-left-30" (click)="doCommand(83)" ng-bind-html>&#9660;</button>
+		<span class="rotate-button-container">
+			<button class="margin-left-30" (click)="doCommand(87)" ng-bind-html>&#8635;</button>
+			<button class="margin-left-30" (click)="doCommand(69)" ng-bind-html>&#8634;</button>
+		</span>
+	</div>
+</div>
 <div id="controls-panel-container" class="controls-panel-container">
   <pre>Legend: 
 	a: Move left
@@ -7,4 +20,3 @@
 	s: Move down
   </pre>
 </div>
-  	<input type="text" id="commandField" name="commandField" [(ngModel)]="command" (keydown)="doCommand($event)" (blur)="returnFocus($event)" maxlength="1" placeholder="Enter command" autofocus>

@@ -8,10 +8,10 @@ import * as _ from 'lodash';
   styleUrls: ['./game-panel.component.css']
 })
 export class GamePanelComponent{
-  private _command: string;
+  private _command: number;
   private borderChar = "O";
-  private boardWidth = 20;  //allocate 2 for border
-  private boardHeight = 21;  //allocate 1 for bottom border
+  private boardWidth = 18;  //allocate 2 for border
+  private boardHeight = 18;  //allocate 1 for bottom border
   private landedPiecesBoard;
   private currentTetris;
   private gravityTimer = 0;
@@ -29,32 +29,36 @@ export class GamePanelComponent{
     this.initBoard();
   }
 
-  @Input() set command (command: string) {
-    if(this.currentTetris && command !== "") {
+  @Input() set command (command: number) {
+    if(this.currentTetris) {
       this.errorMsg = "";
       let isUnknownCommand = false;
-      switch(_.toLower(command)) {
-        case "a": {
+      switch(command) {
+        case 37:   //left arrow
+        case 65: {  //a
           this.currentTetris.moveLeft();
           // this.currentTetris.moveDown();
           break;
         }
-        case "d": {
+        case 39:   //right arrow
+        case 68: {  //d
           this.currentTetris.moveRight();
           // this.currentTetris.moveDown();
           break;
         }
-        case "w": {
+        case 38:    //up arrow
+        case 87: {  //w
           this.currentTetris.rotateCounterClockwise();
           // this.currentTetris.moveDown();
           break;
         }
-        case "e": {
+        case 69 : {   //e
           this.currentTetris.rotateClockwise();
           // this.currentTetris.moveDown();
           break;
         }
-        case "s": {
+        case 40:    //down arrow
+        case 83: {    //s
           this.checkPieceLandedAndCreate();
           this.currentTetris.moveDown();
           this.resetGravityTimer();
@@ -124,7 +128,7 @@ export class GamePanelComponent{
   private updateTetrisBoard(isSilent?: boolean) {
     let isValidMove;
     const boardClone = _.cloneDeep(this.landedPiecesBoard);
-    _.each(this.currentTetris.getBody(), (rowElem, index) => {
+    _.every(this.currentTetris.getBody(), (rowElem, index) => {
         let rowBoard = _.get(boardClone, this.currentTetris.getPositionY() + index);
         isValidMove = this.checkValidMove(rowBoard, this.currentTetris, rowElem.length, index);
         if(rowBoard && isValidMove) {
@@ -132,6 +136,7 @@ export class GamePanelComponent{
           _.mergeWith(rowBoardSubset, rowElem, (val1, val2) => val1 || val2);
           rowBoard.splice(this.currentTetris.getPositionX(), rowElem.length, ...rowBoardSubset);
         }
+        return isValidMove;
     })
     if(isValidMove) {
       if(!isSilent) {

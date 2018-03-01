@@ -3,7 +3,7 @@
 	background-color: lightblue;
 	padding-left: 10px;
 	padding-top: 10px;
-	width: 300px;
+	margin-top: 10px;
 }
 
 #commandField {
@@ -13,4 +13,18 @@
 	left: 20px;
 	top: 0px;
 	z-index: -1;
+}
+
+.controls-button-container button {
+	width: 30px;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.margin-left-30 {
+	margin-left: 30px;
+}
+
+.rotate-button-container {
+	float: right;
 }

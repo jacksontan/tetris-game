@@ -9,10 +9,22 @@ export class ControlsPanelComponent {
   @Output() commandEvent = new EventEmitter<string>();
   public command: string;
 
-  constructor() { }
+  constructor() {
+    document.addEventListener('keyup', (e) => {
+      console.log(e.key + " = " + e.keyCode);
+        this.doCommand(e);
+     });
+  }
   
   public doCommand(e) {
-  	this.commandEvent.emit(e.key);
+    let keyCode;
+    if(typeof(e) === "number") {
+      keyCode = e;
+    }
+    else {
+      keyCode = e.keyCode;
+    }
+  	this.commandEvent.emit(keyCode);
   	return true;
   }
 

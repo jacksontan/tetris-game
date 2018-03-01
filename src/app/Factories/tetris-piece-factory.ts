@@ -1,15 +1,17 @@
 import TetrisPieceStick from '../tetris-piece/tetris-piece-stick';
-import TetrisPieceLeftGun from '../tetris-piece/tetris-piece-leftgun';
-import TetrisPieceRightGun from '../tetris-piece/tetris-piece-rightgun';
-import TetrisPieceThunder from '../tetris-piece/tetris-piece-thunder';
+import TetrisPieceLeftGun from '../tetris-piece/tetris-piece-left-gun';
+import TetrisPieceRightGun from '../tetris-piece/tetris-piece-right-gun';
+import TetrisPieceLeftThunder from '../tetris-piece/tetris-piece-left-thunder';
+import TetrisPieceRightThunder from '../tetris-piece/tetris-piece-right-thunder';
 import TetrisPieceBlock from '../tetris-piece/tetris-piece-block';
+import TetrisPieceThumbtuck from '../tetris-piece/tetris-piece-thumbtack';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TetrisPieceFactory {
 	public pieceChar = "X";
 	public createTetrisPiece() {
-		const randomTetrisType = Math.floor(Math.random() * 5);
+		const randomTetrisType = Math.floor(Math.random() * 7);
 		let generatedPiece;
 		switch(randomTetrisType) {
 			case 0: {
@@ -25,11 +27,19 @@ export class TetrisPieceFactory {
 				break;
 			}
 			case 3: {
-				generatedPiece = new TetrisPieceThunder(randomTetrisType);
+				generatedPiece = new TetrisPieceLeftThunder(randomTetrisType);
 				break;
 			}
 			case 4: {
+				generatedPiece = new TetrisPieceRightThunder(randomTetrisType);
+				break;
+			}
+			case 5: {
 				generatedPiece = new TetrisPieceBlock(randomTetrisType);
+				break;
+			}
+			case 6: {
+				generatedPiece = new TetrisPieceThumbtuck(randomTetrisType);
 				break;
 			}
 			default: {

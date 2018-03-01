@@ -1,4 +1,5 @@
 import TetrisEnumType from '../Enums/tetris-enum-type';
+import _ from 'lodash';
 
 export default abstract class TetrisPiece {
   private id;
@@ -8,9 +9,10 @@ export default abstract class TetrisPiece {
   private body;
   private positionX = 0;
   private positionY = 0;
+  public orientation = 0;
   private oldPositionX = this.positionX;
   private oldPositionY = this.positionY;
-  public orientation = 0;
+  private oldOrientation = this.orientation;
   public bodies = [];
 
   constructor(id) {
@@ -27,46 +29,58 @@ export default abstract class TetrisPiece {
   public moveLeft() {
     this.oldPositionX = this.positionX;
     this.oldPositionY = undefined;
+    this.oldOrientation = undefined;
     this.positionX--;
   }
 
   public moveRight() {
     this.oldPositionX = this.positionX;
     this.oldPositionY = undefined;
+    this.oldOrientation = undefined;
     this.positionX++;
   }
 
   public moveUp() {
     this.oldPositionX = undefined;
     this.oldPositionY = this.positionY;
+    this.oldOrientation = undefined;
     this.positionY--;
   }
 
   public moveDown() {
     this.oldPositionX = undefined;
     this.oldPositionY = this.positionY;
+    this.oldOrientation = undefined;
     this.positionY++;
   }
 
   public rotateClockwise() {
-    this.orientation++;
-    if(this.orientation >= this.bodies.length) {
-      this.orientation = 0;
-    }
-    this.toggleOrientation();
-  }
-
-  public rotateCounterClockwise() {
+    this.oldOrientation = this.orientation;
     this.orientation--;
     if(this.orientation < 0) {
       this.orientation = this.bodies.length - 1;
     }
     this.toggleOrientation();
+    this.oldPositionX = undefined;
+    this.oldPositionY = undefined;
+  }
+
+  public rotateCounterClockwise() {
+    this.oldOrientation = this.orientation;
+    this.orientation++;
+    if(this.orientation >= this.bodies.length) {
+      this.orientation = 0;
+    }
+    this.toggleOrientation();
+    this.oldPositionX = undefined;
+    this.oldPositionY = undefined;
   }
 
   public revertPosition() {
-    this.positionX = this.oldPositionX || this.positionX;
-    this.positionY = this.oldPositionY || this.positionY;
+    this.positionX = _.isUndefined(this.oldPositionX) ? this.positionX : this.oldPositionX;
+    this.positionY = _.isUndefined(this.oldPositionY) ? this.positionY : this.oldPositionY;
+    this.orientation = _.isUndefined(this.oldOrientation) ? this.orientation : this.oldOrientation;
+    this.toggleOrientation();
   }
 
   public getLastElementIndex() {
