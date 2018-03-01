@@ -1,13 +1,13 @@
 <div class="controls-button-container">
 	<div>
-		<button (click)="doCommand(65)" ng-bind-html>&#9668;</button>
-		<button class="margin-left-30" (click)="doCommand(68)" ng-bind-html>&#9658;</button>
+		<button (mousedown)="doCommandMouseDown(65)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#9668;</button>
+		<button class="margin-left-30" (mousedown)="doCommandMouseDown(68)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#9658;</button>
 	</div>
 	<div>
-		<button class="margin-left-30" (click)="doCommand(83)" ng-bind-html>&#9660;</button>
+		<button class="margin-left-30" (mousedown)="doCommandMouseDown(83)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#9660;</button>
 		<span class="rotate-button-container">
-			<button class="margin-left-30" (click)="doCommand(87)" ng-bind-html>&#8635;</button>
-			<button class="margin-left-30" (click)="doCommand(69)" ng-bind-html>&#8634;</button>
+			<button class="margin-left-30" (mousedown)="doCommandMouseDown(87)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#8635;</button>
+			<button class="margin-left-30" (mousedown)="doCommandMouseDown(69)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#8634;</button>
 		</span>
 	</div>
 </div>

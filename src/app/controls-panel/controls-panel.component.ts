@@ -8,6 +8,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class ControlsPanelComponent {
   @Output() commandEvent = new EventEmitter<string>();
   public command: string;
+  private timeoutId;
 
   constructor() {
     document.addEventListener('keyup', (e) => {
@@ -26,6 +27,17 @@ export class ControlsPanelComponent {
     }
   	this.commandEvent.emit(keyCode);
   	return true;
+  }
+
+  public doCommandMouseDown(e) {
+    this.commandEvent.emit(e);
+    this.timeoutId = setInterval(() => {
+      this.commandEvent.emit(e);
+    }, 100);
+  }
+
+  public cancelInterval() {
+    clearInterval(this.timeoutId);
   }
 
   public returnFocus(e) {
