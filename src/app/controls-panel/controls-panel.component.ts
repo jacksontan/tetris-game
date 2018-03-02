@@ -11,8 +11,7 @@ export class ControlsPanelComponent {
   private timeoutId;
 
   constructor() {
-    document.addEventListener('keyup', (e) => {
-      console.log(e.key + " = " + e.keyCode);
+    document.addEventListener('keydown', (e) => {
         this.doCommand(e);
      });
   }

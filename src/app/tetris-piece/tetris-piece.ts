@@ -1,4 +1,4 @@
-import TetrisEnumType from '../Enums/tetris-enum-type';
+import TetrisEnumType from '../enums/tetris-enum-type';
 import _ from 'lodash';
 
 export default abstract class TetrisPiece {

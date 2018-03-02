@@ -1,5 +1,5 @@
 import TetrisPiece from './tetris-piece';
-import TetrisEnumType from './../Enums/tetris-enum-type';
+import TetrisEnumType from './../enums/tetris-enum-type';
 
 export default class TetrisPieceStick extends TetrisPiece {
 	private horizontalBody = [["*", "*", "*", "*"]];

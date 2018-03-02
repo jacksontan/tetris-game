@@ -1,11 +1,14 @@
 <div>
-	Level: {{gravityMultiplier}}
+	Level: {{level}}
 	Score: {{score}}
 </div>
 <div id="game-panel-container" class="game-panel-container">
 	<table>
 	<tr *ngFor="let row of mainBoard">
-		<td *ngFor="let col of row" class="tetris-container">{{col}}</td>
+		<td *ngFor="let col of row" class="tetris-container">{{col === '' && col || ''}}
+			<div *ngIf="col === 'O'" class="tetris-border">&nbsp;</div>
+			<img *ngIf="col === '*'" src="{{col === '*' && '../../assets/tetris-sprite.png' || ''}}"/>
+		</td>
 	</tr>
 	</table>
 </div>

@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { GamePanelComponent } from './game-panel/game-panel.component';
 import { ControlsPanelComponent } from './controls-panel/controls-panel.component';
 
-import { TetrisPieceFactory } from './Factories/tetris-piece-factory';
+import { TetrisPieceFactory } from './factories/tetris-piece-factory';
+import { TetrisScoreService } from './services/tetris-score.service';
+import { TetrisLevelService } from './services/tetris-level.service';
 
 
 @NgModule({
@@ -17,7 +19,7 @@ import { TetrisPieceFactory } from './Factories/tetris-piece-factory';
     BrowserModule,
     FormsModule
   ],
-  providers: [TetrisPieceFactory],
+  providers: [TetrisPieceFactory, TetrisScoreService, TetrisLevelService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

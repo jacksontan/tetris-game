@@ -1,5 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { TetrisPieceFactory } from './../Factories/tetris-piece-factory';
+import { TetrisPieceFactory } from './../factories/tetris-piece-factory';
+import { TetrisScoreService } from './../services/tetris-score.service';
+import { TetrisLevelService } from './../services/tetris-level.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -8,21 +10,27 @@ import * as _ from 'lodash';
   styleUrls: ['./game-panel.component.css']
 })
 export class GamePanelComponent{
+  private gameOverMsgList = ["Try to relax.", "Don\'t blink too much.", "Still needs practice"];
   private _command: number;
   private borderChar = "O";
-  private boardWidth = 18;  //allocate 2 for border
+  private boardWidth = 14;  //allocate 2 for border
   private boardHeight = 18;  //allocate 1 for bottom border
   private landedPiecesBoard;
   private currentTetris;
   private gravityTimer = 0;
   private tetrisList = [];
   public errorMsg = "";
-  public gravityMultiplier = 1;
+  public level = 1;
   public mainBoard;
   public score = 0;
 
-  constructor(private TetrisPieceFactory: TetrisPieceFactory) { 
+  constructor(private TetrisPieceFactory: TetrisPieceFactory, 
+      private TetrisScoreService: TetrisScoreService, 
+      private TetrisLevelService: TetrisLevelService) { 
     this.TetrisPieceFactory = TetrisPieceFactory;
+    this.TetrisScoreService = TetrisScoreService;
+    this.TetrisLevelService = TetrisLevelService;
+    this.TetrisLevelService.startTimer();
   }
 
   ngOnInit() {
@@ -94,8 +102,13 @@ export class GamePanelComponent{
     this.currentTetris.setPositionX(this.boardWidth / 2 - 1); //get middle position
     if(this.isGameOver()) {
       clearInterval(this.gravityTimer);
-      alert("GAME OVER!! WEAK!");
+      alert(this.generateGameOverMsg());
     }
+  }
+
+  private generateGameOverMsg() {
+    const randomNo = Math.floor(Math.random() * this.gameOverMsgList.length);
+    return "Game Over. " + this.gameOverMsgList[randomNo];
   }
 
   private isGameOver() {
@@ -105,17 +118,26 @@ export class GamePanelComponent{
   }
 
   private startGravity() {
-    const interval = 1000 - this.gravityMultiplier * 100;
+    const interval = 1000 - this.level * 100;
     this.gravityTimer = setInterval(() => {
       this.checkPieceLandedAndCreate();
       this.currentTetris.moveDown();
       this.updateTetrisBoard();
+      this.checkLevelAndUpdateGravity();
     }, interval)
   }
 
   private resetGravityTimer() {
     clearInterval(this.gravityTimer);
     this.startGravity();
+  }
+
+  private checkLevelAndUpdateGravity() {
+    let newLevel = this.TetrisLevelService.getLevel();
+    if(this.level !== newLevel) {
+      this.resetGravityTimer();
+      this.level = newLevel;
+    }
   }
 
   private checkPieceLandedAndCreate() {
@@ -195,8 +217,10 @@ export class GamePanelComponent{
     _.each(rowsToDelete, (rowNo) => {
       this.mainBoard.splice(rowNo, 1);
       this.addNewEmptyLine();
-      this.score++;
     });
+    if(rowsToDelete.length) {
+      this.score = this.TetrisScoreService.addScore(rowsToDelete.length, this.level);
+    }
   }
 
   private addNewEmptyLine() {
