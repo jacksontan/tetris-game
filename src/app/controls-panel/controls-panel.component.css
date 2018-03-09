@@ -16,15 +16,47 @@
 }
 
 .controls-button-container button {
-	width: 30px;
 	font-weight: bold;
 	margin-top: 10px;
+	width: 70px;
+	height: 50px;
 }
 
-.margin-left-30 {
-	margin-left: 30px;
+.rotate-button {
+	font-size: 30px;
+}
+
+.down-button {
+	margin-left: 37px;
 }
 
 .rotate-button-container {
 	float: right;
+}
+
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 6px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }

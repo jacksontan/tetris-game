@@ -1,22 +1,15 @@
 <div class="controls-button-container">
 	<div>
-		<button (mousedown)="doCommandMouseDown(65)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#9668;</button>
-		<button class="margin-left-30" (mousedown)="doCommandMouseDown(68)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#9658;</button>
-	</div>
-	<div>
-		<button class="margin-left-30" (mousedown)="doCommandMouseDown(83)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#9660;</button>
+		<button (touchstart)="doCommandMouseDown(65)" (touchend)="cancelInterval()" (mouseclick)="doCommand(65)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html><i class="arrow left"></i></button>
+
+		<button (touchstart)="doCommandMouseDown(68)" (touchend)="cancelInterval()" (mouseclick)="doCommand(68)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html><i class="arrow right"></i></button>
 		<span class="rotate-button-container">
-			<button class="margin-left-30" (mousedown)="doCommandMouseDown(87)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#8635;</button>
-			<button class="margin-left-30" (mousedown)="doCommandMouseDown(69)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#8634;</button>
+			<button class="rotate-button" (touchstart)="doCommandMouseDown(87)" (touchend)="cancelInterval()" (mouseclick)="doCommand(87)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#8635;</button>
+
+			<button class="rotate-button" (touchstart)="doCommandMouseDown(69)" (touchend)="cancelInterval()" (mouseclick)="doCommand(69)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html>&#8634;</button>
 		</span>
 	</div>
-</div>
-<div id="controls-panel-container" class="controls-panel-container">
-  <pre>Legend: 
-	a: Move left
-	d: Move right
-	w: Rotate clockwise
-	e: Rotate counter clockwise
-	s: Move down
-  </pre>
+	<div>
+		<button class="down-button" (touchstart)="doCommandMouseDown(83)" (touchend)="cancelInterval()" (mouseclick)="doCommand(83)" (mouseup)="cancelInterval()" (mouseleave)="cancelInterval()" ng-bind-html><i class="arrow down"></i></button>
+	</div>
 </div>

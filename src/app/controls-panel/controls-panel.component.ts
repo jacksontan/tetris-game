@@ -9,6 +9,7 @@ export class ControlsPanelComponent {
   @Output() commandEvent = new EventEmitter<string>();
   public command: string;
   private timeoutId;
+  public logMsg = "";
 
   constructor() {
     document.addEventListener('keydown', (e) => {
@@ -29,13 +30,16 @@ export class ControlsPanelComponent {
   }
 
   public doCommandMouseDown(e) {
+    this.logMsg += "mouse down \r\n";
     this.commandEvent.emit(e);
+    this.cancelInterval();
     this.timeoutId = setInterval(() => {
       this.commandEvent.emit(e);
     }, 100);
   }
 
   public cancelInterval() {
+    this.logMsg += "mouse up \r\n";
     clearInterval(this.timeoutId);
   }
 
