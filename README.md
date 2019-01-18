@@ -1,5 +1,6 @@
 # TetrisGame
 This is a demo tetris game built using Angular 4.
+Live in heroku https://mytetrisgame.herokuapp.com/
 
 ## Installation and how to start
 1. Download and install Node JS https://nodejs.org/en/download/
@@ -9,4 +10,4 @@ This is a demo tetris game built using Angular 4.
 5. Open localhost:4200 in your browser
 
 ## Author
-Jackson Tan
+Jackson Tanhttps://mytetrisgame.herokuapp.com/
