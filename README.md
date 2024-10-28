@@ -10,4 +10,4 @@ Live in heroku https://mytetrisgame.herokuapp.com/
 5. Open localhost:4200 in your browser
 
 ## Author
-Jackson Tanhttps://mytetrisgame.herokuapp.com/
+Jackson Tan
